@@ -1,0 +1,16 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a4d1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d7d2d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#gradient)"/>
+  <text x="400" y="180" font-family="Arial, sans-serif" font-size="24" fill="#66cc66" text-anchor="middle" font-weight="bold">MILITARY ACADEMY</text>
+  <text x="400" y="220" font-family="Arial, sans-serif" font-size="16" fill="#b3b3b3" text-anchor="middle">Custom Build Preview - Select Options to Update</text>
+  <rect x="100" y="280" width="80" height="60" fill="#333d33" stroke="#66cc66" stroke-width="2"/>
+  <rect x="220" y="260" width="100" height="80" fill="#333d33" stroke="#66cc66" stroke-width="2"/>
+  <rect x="480" y="280" width="80" height="60" fill="#333d33" stroke="#66cc66" stroke-width="2"/>
+  <rect x="620" y="260" width="100" height="80" fill="#333d33" stroke="#66cc66" stroke-width="2"/>
+  <circle cx="400" cy="300" r="40" fill="none" stroke="#66cc66" stroke-width="3" stroke-dasharray="5,5"/>
+</svg>

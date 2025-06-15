@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Configurator - Militect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="configurator-container">
+        <header class="header">
+            <div class="nav-brand">Militect</div>
+            <div class="user-info">
+                <span class="welcome-text">Welcome, Commander</span>
+                <a href="index.html" class="btn-home">← Home</a>
+            </div>
+        </header>
+
+        <main class="configurator-main">
+            <div class="sidebar">
+                <h2 class="sidebar-title">Configure Your Academy</h2>
+                
+                <!-- Academy Theme Selection -->
+                <div class="config-section">
+                    <h3>Academy Theme</h3>
+                    <div class="theme-options">
+                        <label class="theme-option">
+                            <input type="radio" name="academyTheme" value="usa" checked>
+                            <span class="theme-card">
+                                <div class="theme-icon">🇺🇸</div>
+                                <div class="theme-name">USA Military</div>
+                            </span>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="academyTheme" value="uk">
+                            <span class="theme-card">
+                                <div class="theme-icon">🇬🇧</div>
+                                <div class="theme-name">UK Military</div>
+                            </span>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="academyTheme" value="custom">
+                            <span class="theme-card">
+                                <div class="theme-icon">⚡</div>
+                                <div class="theme-name">Custom</div>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="custom-theme-input" style="display: none;">
+                        <input type="text" id="customTheme" placeholder="Enter custom theme name">
+                    </div>
+                </div>
+
+                <!-- Environment Selection -->
+                <div class="config-section">
+                    <h3>Environment</h3>
+                    <div class="environment-grid">
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="tropical" checked>
+                            <span class="env-card">
+                                <div class="env-preview tropical"></div>
+                                <span class="env-name">Tropical</span>
+                            </span>
+                        </label>
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="snowy">
+                            <span class="env-card">
+                                <div class="env-preview snowy"></div>
+                                <span class="env-name">Snowy</span>
+                            </span>
+                        </label>
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="grass">
+                            <span class="env-card">
+                                <div class="env-preview grass"></div>
+                                <span class="env-name">Grass</span>
+                            </span>
+                        </label>
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="desert">
+                            <span class="env-card">
+                                <div class="env-preview desert"></div>
+                                <span class="env-name">Desert</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Layout Selection -->
+                <div class="config-section">
+                    <h3>Academy Layout</h3>
+                    <div class="layout-options">
+                        <label class="layout-option">
+                            <input type="radio" name="layout" value="layout1" checked>
+                            <span class="layout-card">
+                                <div class="layout-preview">
+                                    <img src="preview.jpg" alt="Layout 1">
+                                </div>
+                                <span class="layout-name">Compact Design</span>
+                            </span>
+                        </label>
+                        <label class="layout-option">
+                            <input type="radio" name="layout" value="layout2">
+                            <span class="layout-card">
+                                <div class="layout-preview">
+                                    <img src="preview.jpg" alt="Layout 2">
+                                </div>
+                                <span class="layout-name">Extended Campus</span>
+                            </span>
+                        </label>
+                        <label class="layout-option">
+                            <input type="radio" name="layout" value="layout3">
+                            <span class="layout-card">
+                                <div class="layout-preview">
+                                    <img src="preview.jpg" alt="Layout 3">
+                                </div>
+                                <span class="layout-name">Military Complex</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Add-ons -->
+                <div class="config-section">
+                    <h3>Optional Add-ons</h3>
+                    <div class="addons-list">
+                        <label class="addon-item">
+                            <input type="checkbox" name="addons" value="vanilla-scripts">
+                            <span class="addon-content">
+                                <span class="addon-name">Vanilla Works Scripts</span>
+                                <span class="addon-price">+500 Robux</span>
+                            </span>
+                        </label>
+                        <label class="addon-item">
+                            <input type="checkbox" name="addons" value="complete-ui">
+                            <span class="addon-content">
+                                <span class="addon-name">Complete UI System</span>
+                                <span class="addon-price">+800 Robux</span>
+                            </span>
+                        </label>
+                        <label class="addon-item">
+                            <input type="checkbox" name="addons" value="npc-gamepass">
+                            <span class="addon-content">
+                                <span class="addon-name">NPC Game Pass System</span>
+                                <span class="addon-price">+1200 Robux</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-header">
+                    <h3>Live Preview</h3>
+                    <div class="preview-controls">
+                        <button class="btn-control active" data-view="exterior">Exterior</button>
+                        <button class="btn-control" data-view="interior">Interior</button>
+                        <button class="btn-control" data-view="aerial">Aerial</button>
+                    </div>
+                </div>
+                <div class="preview-viewport">
+                    <img id="previewImage" src="static/preview-default.jpg" alt="Map Preview">
+                    <div class="preview-overlay">
+                        <div class="preview-info">
+                            <span class="preview-theme">USA Military Academy</span>
+                            <span class="preview-environment">Tropical Environment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-panel">
+                <div class="pricing-header">
+                    <h3>Order Summary</h3>
+                </div>
+                <div class="pricing-breakdown">
+                    <div class="price-item">
+                        <span>Base Academy Map</span>
+                        <span class="price">2500 Robux</span>
+                    </div>
+                    <div class="price-item addons-section" style="display: none;">
+                        <span>Add-ons</span>
+                        <span class="addons-price">0 Robux</span>
+                    </div>
+                    <div class="price-divider"></div>
+                    <div class="price-total">
+                        <span>Total</span>
+                        <span class="total-price">2500 Robux</span>
+                    </div>
+                    <div class="price-usd">
+                        <span>≈ $31.25 USD</span>
+                    </div>
+                </div>
+
+                <div class="payment-options">
+                    <h4>Payment Method</h4>
+                    <div class="payment-tabs">
+                        <button class="payment-tab active" data-currency="robux">
+                            <span class="tab-icon">💎</span>
+                            <span>Robux</span>
+                        </button>
+                        <button class="payment-tab" data-currency="usd">
+                            <span class="tab-icon">💳</span>
+                            <span>USD</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="purchase-section">
+                    <div class="terms-checkbox">
+                        <label>
+                            <input type="checkbox" id="acceptTerms">
+                            <span>I agree to the Terms of Service</span>
+                        </label>
+                    </div>
+                    <button class="btn-purchase" id="purchaseBtn" disabled>
+                        <span class="btn-text">Purchase Academy Map</span>
+                        <span class="btn-price">2500 Robux</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating - Militect</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #060606;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .auth-container {
+            text-align: center;
+            background: rgba(26, 77, 26, 0.1);
+            border: 1px solid #4da64d;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        .loading {
+            color: #4da64d;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .spinner {
+            border: 3px solid #333333;
+            border-top: 3px solid #4da64d;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="loading">Authenticating with Discord...</div>
+        <div class="spinner"></div>
+        <p>Please wait while we verify your credentials.</p>
+    </div>
+
+    <script>
+        // Simple Discord OAuth callback handler for static hosting
+        async function handleDiscordCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+
+            if (error) {
+                console.error('Discord OAuth error:', error);
+                alert('Authentication failed. Please try again.');
+                window.location.href = '/index.html';
+                return;
+            }
+
+            if (!code) {
+                console.error('No authorization code received');
+                alert('Authentication failed. No authorization code received.');
+                window.location.href = '/index.html';
+                return;
+            }
+
+            try {
+                // For static hosting, we'll simulate successful authentication
+                // In production, you'd exchange the code for a token server-side
+                
+                // Simulate user data (replace with real Discord API call)
+                const userData = {
+                    id: 'user_' + Date.now(),
+                    username: 'Commander',
+                    discriminator: '0001',
+                    avatar: null,
+                    email: 'commander@militect.com'
+                };
+
+                // Store user data
+                localStorage.setItem('discord_user', JSON.stringify(userData));
+                localStorage.setItem('discord_authenticated', 'true');
+                localStorage.setItem('auth_timestamp', Date.now().toString());
+
+                // Redirect to demo page
+                setTimeout(() => {
+                    window.location.href = '/demo.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Authentication error:', error);
+                alert('Authentication failed. Please try again.');
+                window.location.href = '/index.html';
+            }
+        }
+
+        // Run callback handler on page load
+        handleDiscordCallback();
+    </script>
+</body>
+</html>

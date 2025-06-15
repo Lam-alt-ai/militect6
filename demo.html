@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Configurator - Militect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Embedded CSS for demo page to ensure styling works */
+        :root {
+            --primary-color: #1a4d1a;
+            --secondary-color: #2d7d2d;
+            --accent-color: #4da64d;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #060606;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --text-accent: #66cc66;
+            --border-color: #333333;
+            --hover-color: #1a5a1a;
+            --error-color: #ff4444;
+            --success-color: #4da64d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #060606;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .configurator-container {
+            min-height: 100vh;
+            background: #060606;
+        }
+
+        .header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid #333333;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4da64d;
+            letter-spacing: 2px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .welcome-text {
+            color: #b3b3b3;
+            font-size: 1rem;
+        }
+
+        .btn-home {
+            color: #4da64d;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #4da64d;
+            transition: all 0.3s ease;
+        }
+
+        .btn-home:hover {
+            background: #4da64d;
+            color: #060606;
+        }
+
+        .configurator-main {
+            display: grid;
+            grid-template-columns: 350px 1fr 300px;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            background: rgba(26, 77, 26, 0.1);
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: #4da64d;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .demo-notice {
+            background: rgba(77, 166, 77, 0.1);
+            border: 1px solid #4da64d;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .demo-notice p {
+            color: #4da64d;
+            font-weight: 600;
+        }
+
+        .config-section {
+            margin-bottom: 2rem;
+        }
+
+        .config-section h3 {
+            color: #4da64d;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .theme-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .theme-option input[type="radio"] {
+            display: none;
+        }
+
+        .theme-card {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(51, 51, 51, 0.3);
+            border: 1px solid #333333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-option input[type="radio"]:checked + .theme-card {
+            border-color: #4da64d;
+            background: rgba(77, 166, 77, 0.1);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+        }
+
+        .theme-name {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .environment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .env-option input[type="radio"] {
+            display: none;
+        }
+
+        .env-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(51, 51, 51, 0.3);
+            border: 1px solid #333333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .env-option input[type="radio"]:checked + .env-card {
+            border-color: #4da64d;
+            background: rgba(77, 166, 77, 0.1);
+        }
+
+        .env-preview {
+            width: 40px;
+            height: 30px;
+            border-radius: 3px;
+        }
+
+        .env-preview.tropical { background: linear-gradient(45deg, #228B22, #32CD32); }
+        .env-preview.snowy { background: linear-gradient(45deg, #F0F8FF, #FFFFFF); }
+        .env-preview.grass { background: linear-gradient(45deg, #90EE90, #006400); }
+        .env-preview.desert { background: linear-gradient(45deg, #F4A460, #CD853F); }
+
+        .env-name {
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .layout-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .layout-option input[type="radio"] {
+            display: none;
+        }
+
+        .layout-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(51, 51, 51, 0.3);
+            border: 1px solid #333333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .layout-option input[type="radio"]:checked + .layout-card {
+            border-color: #4da64d;
+            background: rgba(77, 166, 77, 0.1);
+        }
+
+        .layout-preview img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .layout-name {
+            color: #ffffff;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .addons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .addon-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .addon-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(51, 51, 51, 0.3);
+            border: 1px solid #333333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .addon-item input[type="checkbox"]:checked + .addon-content {
+            border-color: #4da64d;
+            background: rgba(77, 166, 77, 0.1);
+        }
+
+        .addon-name {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .addon-price {
+            color: #4da64d;
+            font-weight: 600;
+        }
+
+        .preview-area {
+            background: rgba(26, 77, 26, 0.1);
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .preview-header h3 {
+            color: #4da64d;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-control {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid #333333;
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-control.active,
+        .btn-control:hover {
+            border-color: #4da64d;
+            color: #4da64d;
+        }
+
+        .preview-viewport {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .preview-viewport img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .preview-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 1rem;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .preview-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .preview-theme,
+        .preview-environment {
+            color: #4da64d;
+            font-weight: 600;
+        }
+
+        .pricing-panel {
+            background: rgba(26, 77, 26, 0.1);
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .pricing-header h3 {
+            color: #4da64d;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-breakdown {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333333;
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #4da64d;
+        }
+
+        .price-usd {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .payment-options h4 {
+            color: #4da64d;
+            margin-bottom: 1rem;
+        }
+
+        .payment-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid #333333;
+            color: #b3b3b3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-tab.active,
+        .payment-tab:hover {
+            border-color: #4da64d;
+            color: #4da64d;
+        }
+
+        .demo-terms {
+            background: rgba(77, 166, 77, 0.1);
+            border: 1px solid #4da64d;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .demo-terms p {
+            color: #4da64d;
+            font-weight: 600;
+        }
+
+        .btn-purchase {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, #1a4d1a, #4da64d);
+            border: none;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-purchase:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(77, 166, 77, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .configurator-main {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="configurator-container">
+        <header class="header">
+            <div class="nav-brand">Militect</div>
+            <div class="user-info">
+                <span class="welcome-text">Demo Mode</span>
+                <a href="index.html" class="btn-home">← Home</a>
+            </div>
+        </header>
+
+        <main class="configurator-main">
+            <div class="sidebar">
+                <h2 class="sidebar-title">Configure Your Academy</h2>
+                <div class="demo-notice">
+                    <p>🎯 This is a demo version. Try all features!</p>
+                </div>
+                
+                <!-- Academy Theme Selection -->
+                <div class="config-section">
+                    <h3>Academy Theme</h3>
+                    <div class="theme-options">
+                        <label class="theme-option">
+                            <input type="radio" name="academyTheme" value="usa" checked>
+                            <span class="theme-card">
+                                <div class="theme-icon">🇺🇸</div>
+                                <div class="theme-name">USA Military</div>
+                            </span>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="academyTheme" value="uk">
+                            <span class="theme-card">
+                                <div class="theme-icon">🇬🇧</div>
+                                <div class="theme-name">UK Military</div>
+                            </span>
+                        </label>
+                        <label class="theme-option">
+                            <input type="radio" name="academyTheme" value="custom">
+                            <span class="theme-card">
+                                <div class="theme-icon">⚡</div>
+                                <div class="theme-name">Custom</div>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="custom-theme-input" style="display: none;">
+                        <input type="text" id="customTheme" placeholder="Enter custom theme name">
+                    </div>
+                </div>
+
+                <!-- Environment Selection -->
+                <div class="config-section">
+                    <h3>Environment</h3>
+                    <div class="environment-grid">
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="tropical" checked>
+                            <span class="env-card">
+                                <div class="env-preview tropical"></div>
+                                <span class="env-name">Tropical</span>
+                            </span>
+                        </label>
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="snowy">
+                            <span class="env-card">
+                                <div class="env-preview snowy"></div>
+                                <span class="env-name">Snowy</span>
+                            </span>
+                        </label>
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="grass">
+                            <span class="env-card">
+                                <div class="env-preview grass"></div>
+                                <span class="env-name">Grass</span>
+                            </span>
+                        </label>
+                        <label class="env-option">
+                            <input type="radio" name="environment" value="desert">
+                            <span class="env-card">
+                                <div class="env-preview desert"></div>
+                                <span class="env-name">Desert</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Layout Selection -->
+                <div class="config-section">
+                    <h3>Academy Layout</h3>
+                    <div class="layout-options">
+                        <label class="layout-option">
+                            <input type="radio" name="layout" value="layout1" checked>
+                            <span class="layout-card">
+                                <div class="layout-preview">
+                                    <img src="static/preview-default.jpg" alt="Layout 1">
+                                </div>
+                                <span class="layout-name">Compact Design</span>
+                            </span>
+                        </label>
+                        <label class="layout-option">
+                            <input type="radio" name="layout" value="layout2">
+                            <span class="layout-card">
+                                <div class="layout-preview">
+                                    <img src="static/preview-default.jpg" alt="Layout 2">
+                                </div>
+                                <span class="layout-name">Extended Campus</span>
+                            </span>
+                        </label>
+                        <label class="layout-option">
+                            <input type="radio" name="layout" value="layout3">
+                            <span class="layout-card">
+                                <div class="layout-preview">
+                                    <img src="static/preview-default.jpg" alt="Layout 3">
+                                </div>
+                                <span class="layout-name">Military Complex</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Add-ons -->
+                <div class="config-section">
+                    <h3>Optional Add-ons</h3>
+                    <div class="addons-list">
+                        <label class="addon-item">
+                            <input type="checkbox" name="addons" value="vanilla-scripts">
+                            <span class="addon-content">
+                                <span class="addon-name">Vanilla Works Scripts</span>
+                                <span class="addon-price">+500 Robux</span>
+                            </span>
+                        </label>
+                        <label class="addon-item">
+                            <input type="checkbox" name="addons" value="complete-ui">
+                            <span class="addon-content">
+                                <span class="addon-name">Complete UI System</span>
+                                <span class="addon-price">+800 Robux</span>
+                            </span>
+                        </label>
+                        <label class="addon-item">
+                            <input type="checkbox" name="addons" value="npc-gamepass">
+                            <span class="addon-content">
+                                <span class="addon-name">NPC Game Pass System</span>
+                                <span class="addon-price">+1200 Robux</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-header">
+                    <h3>Live Preview</h3>
+                    <div class="preview-controls">
+                        <button class="btn-control active" data-view="exterior">Exterior</button>
+                        <button class="btn-control" data-view="interior">Interior</button>
+                        <button class="btn-control" data-view="aerial">Aerial</button>
+                    </div>
+                </div>
+                <div class="preview-viewport">
+                    <img id="previewImage" src="static/preview-default.jpg" alt="Map Preview">
+                    <div class="preview-overlay">
+                        <div class="preview-info">
+                            <span class="preview-theme">USA Military Academy</span>
+                            <span class="preview-environment">Tropical Environment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-panel">
+                <div class="pricing-header">
+                    <h3>Order Summary</h3>
+                </div>
+                <div class="pricing-breakdown">
+                    <div class="price-item">
+                        <span>Base Academy Map</span>
+                        <span class="price">2500 Robux</span>
+                    </div>
+                    <div class="price-item addons-section" style="display: none;">
+                        <span>Add-ons</span>
+                        <span class="addons-price">0 Robux</span>
+                    </div>
+                    <div class="price-divider"></div>
+                    <div class="price-total">
+                        <span>Total</span>
+                        <span class="total-price">2500 Robux</span>
+                    </div>
+                    <div class="price-usd">
+                        <span>≈ $31.25 USD</span>
+                    </div>
+                </div>
+
+                <div class="payment-options">
+                    <h4>Payment Method</h4>
+                    <div class="payment-tabs">
+                        <button class="payment-tab active" data-currency="robux">
+                            <span class="tab-icon">💎</span>
+                            <span>Robux</span>
+                        </button>
+                        <button class="payment-tab" data-currency="usd">
+                            <span class="tab-icon">💳</span>
+                            <span>USD</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="purchase-section">
+                    <div class="demo-terms">
+                        <p>✨ Demo Mode - Try the purchase flow!</p>
+                    </div>
+                    <button class="btn-purchase demo-purchase" id="purchaseBtn">
+                        <span class="btn-text">Try Demo Purchase</span>
+                        <span class="btn-price">2500 Robux</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Authentication check - redirect if not logged in
+        function checkAuthentication() {
+            const isAuthenticated = localStorage.getItem('discord_authenticated');
+            if (!isAuthenticated) {
+                alert('Please log in with Discord to access the demo.');
+                window.location.href = '/index.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Demo mode specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication first
+            if (!checkAuthentication()) {
+                return;
+            }
+
+            window.isDemoMode = true;
+            
+            // Show user info if available
+            const userData = localStorage.getItem('discord_user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                console.log('Demo accessed by:', user.username);
+            }
+            
+            // Override purchase button for demo
+            const purchaseBtn = document.getElementById('purchaseBtn');
+            if (purchaseBtn) {
+                purchaseBtn.addEventListener('click', function() {
+                    alert('Demo purchase successful! In the real version, this would redirect to payment.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
