@@ -1,0 +1,14 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/configurator",
+      "destination": "/configurator.html"
+    },
+    {
+      "source": "/demo",
+      "destination": "/demo.html"
+    }
+  ]
+}
